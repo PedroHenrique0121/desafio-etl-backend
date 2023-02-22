@@ -16,8 +16,8 @@ public class PaginaService {
         return this.paginaRepository.save(pagina);
     }
 
-    public Pagina salvarConteudoModificado(Pagina pagina) {
-        return this.paginaRepository.findById(pagina.getId())
+    public Pagina salvarConteudoModificado(Pagina pagina, Integer id) {
+        return this.paginaRepository.findById(id)
                 .map(obj -> {
                     obj.setConteudoModificado(pagina.getConteudoModificado());
                     return this.paginaRepository.save(obj);

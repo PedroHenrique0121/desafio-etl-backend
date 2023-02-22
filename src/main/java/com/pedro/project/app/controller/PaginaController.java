@@ -17,19 +17,20 @@ public class PaginaController {
 
     private PaginaService paginaService;
     private PaginaRepository paginaRepository;
-    @PostMapping("/conteudo-ocriginal")
+    @PostMapping("/conteudo-original")
     public ResponseEntity<Pagina> salvarConteudoOriginal(@RequestBody Pagina pagina) {
         return ResponseEntity.ok(this.paginaService.salvarConteudoOriginal(pagina));
     }
-    @PostMapping("/conteudo-modificado")
-    public ResponseEntity<Pagina> salvarConteudoModificado(@RequestBody Pagina pagina) {
-        return ResponseEntity.ok(this.paginaService.salvarConteudoModificado(pagina));
+    @PostMapping("/conteudo-modificado/{id}")
+    public ResponseEntity<Pagina> salvarConteudoModificado(@RequestBody Pagina pagina, @PathVariable Integer id) {
+        return ResponseEntity.ok(this.paginaService.salvarConteudoModificado(pagina,id));
     }
 
     @GetMapping("/conteudo-original/{id}")
     public ResponseEntity<Pagina> retornarConteudoOriginal(@PathVariable Integer id) {
         return ResponseEntity.ok(this.paginaService.retornarPagina(id));
     }
+
     @GetMapping()
     public List<Pagina>retornarTodos() {
         return this.paginaRepository.findAll();
