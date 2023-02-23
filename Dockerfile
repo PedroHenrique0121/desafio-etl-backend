@@ -1,18 +1,17 @@
 # Use uma imagem do OpenJDK 11 como base
 FROM  openjdk:11
 # Copie os arquivos necessários para o diretório /app
-COPY . /app
+FROM maven:3.6.3-jdk-11-slim AS build
+COPY pom.xml /usr/src/app/
+WORKDIR /usr/src/app
+RUN mvn -B dependency:resolve
+COPY src /usr/src/app/src
+RUN mvn -B package -DskipTests
 
-# Configure o diretório de trabalho para /app
+FROM openjdk:11-jre-slim
 WORKDIR /app
-
-# Execute o comando de construção do Maven para gerar o arquivo .jar
-RUN ./mvnw package -DskipTests
-
-# Expõe a porta em que a aplicação está ouvindo
-EXPOSE 8080
-
-ENTRYPOINT exec java  -jar target/app.jar
+COPY --from=build /usr/src/app/target/*.jar /app/app.jar
+CMD ["java", "-jar", "/app/app.jar"]
 
 
 
