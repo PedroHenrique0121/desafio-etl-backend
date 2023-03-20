@@ -53,7 +53,7 @@ public class PaginaService {
         Integer contador = 0;
         for (Pagina pagina : paginas) {
 
-            if (pagina.isConteudoProcessado() == false) {
+            if (!pagina.isConteudoProcessado()) {
                 // instrução para atribuir conteudo html a ser modificado ao Jsoup
                 Document doc = Jsoup.parse(pagina.getConteudoOriginal());
 
@@ -81,7 +81,7 @@ public class PaginaService {
                 }
 
                 // instruções para salvar o conteúdo modificado
-                String novoHTML= doc.select("body").html();
+                String novoHTML = doc.select("body").html();
                 pagina.setConteudoModificado(novoHTML);
                 pagina.setConteudoProcessado(true);
                 this.salvarConteudoModificado(pagina, pagina.getId());
